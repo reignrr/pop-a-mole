@@ -15,7 +15,8 @@ function setGame() {
         document.getElementById("board").appendChild(tile);
     }
     setInterval(setMole, 1000); 
-    setInterval(setPlant, 2000); 
+    setInterval(setToxic, 2000);
+    setInterval(checkPowerUps, 1000);
 }
 
 function getRandomTile() {
@@ -39,9 +40,10 @@ function setMole() {
     }
     nonToxicTile = document.getElementById(num);
     nonToxicTile.appendChild(nontoxic);
+    
 }
 
-function setPlant() {
+function setToxic() {
     if (gameOver) {
         return;
     }
@@ -64,7 +66,7 @@ function selectTile() {
         return;
     }
     if (this == nonToxicTile) {
-        score += 10;
+        score += 100;
         document.getElementById("score").innerText = score.toString(); //update score html
     }
     else if (this == toxicTile) {
@@ -74,77 +76,77 @@ function selectTile() {
 }
 
 
-function activatePowerUp(powerUp) {
-    switch(powerUp) {
-        case "freeze":
-            if (!freezePowerUpActive) {
-                freezePowerUpActive = true;
-                setTimeout(deactivateFreezePowerUp, 5000); 
-            }
-            break;
-        case "slowMo":
-            if (!slowMoPowerUpActive) {
-                slowMoPowerUpActive = true;
-                // Slow down the game here
-                setTimeout(deactivateSlowMoPowerUp, 5000); 
-            }
-            break;
-        case "bigWhack":
-            if (!bigWhackPowerUpActive) {
-                bigWhackPowerUpActive = true;
-                // Increase score for hitting moles here
-                setTimeout(deactivateBigWhackPowerUp, 5000); 
-            }
-            break;
-        case "bonusHole":
-            if (!bonusHolePowerUpActive) {
-                bonusHolePowerUpActive = true;
-                // Add bonus hole to the game
-                setTimeout(deactivateBonusHolePowerUp, 5000); 
-            }
-            break;
-        case "timeWarp":
-            if (!timeWarpPowerUpActive) {
-                timeWarpPowerUpActive = true;
-                // Speed up the game here
-                setTimeout(deactivateTimeWarpPowerUp, 5000); 
-            }
-            break;
-        case "x2Score":
-            if (!x2ScorePowerUpActive) {
-                x2ScorePowerUpActive = true;
-                // Double the score here
-                setTimeout(deactivateX2ScorePowerUp, 5000); 
-            }
-            break;
+function activatePowerUp(score) {
+    switch (score) {
+      case 1000:
+        activateFreezePowerUp();
+        break;
+      case 1500:
+        activateSlowMoPowerUp();
+        break;
+      case 2000:
+        activateBigWhackPowerUp();
+        break;
+      case 2500:
+        activateBonusHolePowerUp();
+        break;
+      case 3000:
+        activateTimeWarpPowerUp();
+        break;
+      case 3500:
+        activateX2ScorePowerUp();
+        break;
     }
-}
+  }
+  
+  function deactivatePowerUp(score) {
+    switch (score) {
+      case 1500:
+        deactivateFreezePowerUp();
+        break;
+      case 2000:
+        deactivateSlowMoPowerUp();
+        break;
+      case 2500:
+        deactivateBigWhackPowerUp();
+        break;
+      case 3000:
+        deactivateBonusHolePowerUp();
+        break;
+      case 3500:
+        deactivateTimeWarpPowerUp();
+        break;
+      case 4000:
+        deactivateX2ScorePowerUp();
+        break;
+    }
+  }
+  
+  function checkPowerUps() {
+    if (score == 1000) {
+      activatePowerUp(1000);
+    } else if (score == 1500) {
+      activatePowerUp(1500);
+    } else if (score == 2000) {
+      activatePowerUp(2000);
+    } else if (score == 2500) {
+      activatePowerUp(2500);
+    } else if (score == 3000) {
+      activatePowerUp(3000);
+    } else if (score == 3500) {
+      activatePowerUp(3500);
+    }
+  }
 
-function deactivateFreezePowerUp() {
-    freezePowerUpActive = false;
-}
+  //powerups
+  function activateFreezePowerUp() {
+    setInterval(setMole, 15000);
+    setInterval(setToxic, 15000);
+    document.getElementById("score").innerText = "FREEZE POWERUP";
+    setTimeout(deactivateFreezePowerUp, 5000);
 
-function deactivateSlowMoPowerUp() {
-    slowMoPowerUpActive = false;
-    // Reset game speed to normal
 }
-
-function deactivateBigWhackPowerUp() {
-    bigWhackPowerUpActive = false;
-    // Reset score modifier
-}
-
-function deactivateBonusHolePowerUp() {
-    bonusHolePowerUpActive = false;
-    // Remove bonus hole from the game
-}
-
-function deactivateTimeWarpPowerUp() {
-    timeWarpPowerUpActive = false;
-    // Reset game speed to normal
-}
-
-function deactivateX2ScorePowerUp() {
-    x2ScorePowerUpActive = false;
-    // Reset score modifier
+  function deactivateFreezePowerUp() {
+    setInterval(setMole, 1000);
+    setInterval(setToxic, 2000);
 }
