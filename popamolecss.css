@@ -41,3 +41,11 @@ h1{
 #score{
     color: white;
 }
+#again{
+    text-align: center;
+    margin:auto;
+    left:50%;
+    right: 50%;
+    color: rgb(0, 0, 0);
+    background-color: rgb(116, 225, 249);
+}
