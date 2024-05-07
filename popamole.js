@@ -26,6 +26,7 @@ function getRandomTile() {
 
 function setMole() {
     if (gameOver) {
+      document.getElementById("again").style.display = "block";
         return;
     }
     if (nonToxicTile) {
@@ -45,6 +46,7 @@ function setMole() {
 
 function setToxic() {
     if (gameOver) {
+      document.getElementById("again").style.display = "block";
         return;
     }
     if (toxicTile) {
@@ -63,10 +65,11 @@ function setToxic() {
 
 function selectTile() {
     if (gameOver) {
+      document.getElementById("again").style.display = "block";
         return;
     }
     if (this == nonToxicTile) {
-        score += 100;
+        score += 10;
         document.getElementById("score").innerText = score.toString(); //update score html
     }
     else if (this == toxicTile) {
@@ -75,7 +78,20 @@ function selectTile() {
     }
 }
 
+function playAgain() {
+  score = 0;
+  gameOver = false;
+  
+  document.getElementById("board").innerHTML = "";
+  document.getElementById("score").innerText = score.toString();
+  document.getElementById("promptPowerUp").innerText = "";
 
+  document.getElementById("again").style.display = "none";
+
+  setGame();
+}
+
+//activates the powerup
 function activatePowerUp(score) {
     switch (score) {
       case 1000:
@@ -99,6 +115,7 @@ function activatePowerUp(score) {
     }
   }
   
+  //deactivates or irreturn nya sa normal yung game after a certain score
   function deactivatePowerUp(score) {
     switch (score) {
       case 1500:
@@ -122,31 +139,49 @@ function activatePowerUp(score) {
     }
   }
   
+  //magwwatch ng score
   function checkPowerUps() {
-    if (score == 1000) {
+    if (score >= 1000) {
       activatePowerUp(1000);
-    } else if (score == 1500) {
+    } else if (score >= 1500) {
+      deactivatePowerUp(1500)
       activatePowerUp(1500);
-    } else if (score == 2000) {
+    } else if (score >= 2000) {
+      deactivatePowerUp(2000)
       activatePowerUp(2000);
-    } else if (score == 2500) {
+    } else if (score >= 2500) {
+      deactivatePowerUp(2500)
       activatePowerUp(2500);
-    } else if (score == 3000) {
+    } else if (score >= 3000) {
+      deactivatePowerUp(3000)
       activatePowerUp(3000);
-    } else if (score == 3500) {
+    } else if (score >= 3500) {
+      deactivatePowerUp(3500)
       activatePowerUp(3500);
     }
+    
   }
 
-  //powerups
+  //Freeze (not working!!)
   function activateFreezePowerUp() {
     setInterval(setMole, 15000);
     setInterval(setToxic, 15000);
-    document.getElementById("score").innerText = "FREEZE POWERUP";
+    document.getElementById("promptPowerUp").style.color = "blue";
+    document.getElementById("promptPowerUp").innerHTML = "FREEZE POWER UP!";
     setTimeout(deactivateFreezePowerUp, 5000);
 
 }
   function deactivateFreezePowerUp() {
     setInterval(setMole, 1000);
     setInterval(setToxic, 2000);
+}
+  
+//2xPower up
+function activateX2ScorePowerUp(){
+  if (this == nonToxicTile) {
+    score += 20; //doubles the score per whack
+    document.getElementById("score").innerText = score.toString();
+    document.getElementById("promptPowerUp").style.color = "blue";
+    document.getElementById("promptPowerUp").innerHTML = "x2 SCORE POWER UP!";
+  }
 }
