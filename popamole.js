@@ -2,6 +2,12 @@ let nonToxicTile;
 let toxicTile;
 let score = 0;
 let gameOver = false;
+let frozen = false;
+let slowMo = false;
+let bigWhack = false;
+let bonusHole = false;
+let timeWarp = false;
+let x2Score = false;
 
 window.onload = function() {
     setGame();
@@ -69,11 +75,11 @@ function selectTile() {
         return;
     }
     if (this == nonToxicTile) {
-        score += 10;
+        score += 100;
         document.getElementById("score").innerText = score.toString(); //update score html
     }
     else if (this == toxicTile) {
-        document.getElementById("score").innerText = "GAME OVER: " + score.toString();
+        document.getElementById("score").innerText = "GAME OVER!\nFinal Score: " + score.toString();
         gameOver = true;
     }
 }
@@ -85,7 +91,6 @@ function playAgain() {
   document.getElementById("board").innerHTML = "";
   document.getElementById("score").innerText = score.toString();
   document.getElementById("promptPowerUp").innerText = "";
-
   document.getElementById("again").style.display = "none";
 
   setGame();
@@ -141,21 +146,26 @@ function activatePowerUp(score) {
   
   //magwwatch ng score
   function checkPowerUps() {
-    if (score >= 1000) {
+    if (score == 1000) {
       activatePowerUp(1000);
-    } else if (score >= 1500) {
+    } 
+    if (score == 1500) {
       deactivatePowerUp(1500)
       activatePowerUp(1500);
-    } else if (score >= 2000) {
+    } 
+    if (score == 2000) {
       deactivatePowerUp(2000)
       activatePowerUp(2000);
-    } else if (score >= 2500) {
+    } 
+    if (score == 2500) {
       deactivatePowerUp(2500)
       activatePowerUp(2500);
-    } else if (score >= 3000) {
+    } 
+    if (score == 3000) {
       deactivatePowerUp(3000)
       activatePowerUp(3000);
-    } else if (score >= 3500) {
+    } 
+    if (score == 3500) {
       deactivatePowerUp(3500)
       activatePowerUp(3500);
     }
@@ -164,24 +174,96 @@ function activatePowerUp(score) {
 
   //Freeze (not working!!)
   function activateFreezePowerUp() {
-    setInterval(setMole, 15000);
-    setInterval(setToxic, 15000);
+    setInterval(setMole, 1000);
+    setInterval(setToxic, 1000);
     document.getElementById("promptPowerUp").style.color = "blue";
     document.getElementById("promptPowerUp").innerHTML = "FREEZE POWER UP!";
-    setTimeout(deactivateFreezePowerUp, 5000);
 
 }
   function deactivateFreezePowerUp() {
     setInterval(setMole, 1000);
-    setInterval(setToxic, 2000);
+    setInterval(setToxic, 1000);
+    document.getElementById("promptPowerUp").style.color = "red";
+    document.getElementById("promptPowerUp").innerHTML = "FREEZE POWER UP DEACTIVATED";
 }
+function activateSlowMoPowerUp(){
+  setInterval(setMole, 1000);
+    setInterval(setToxic, 1000);
+    document.getElementById("promptPowerUp").style.color = "blue";
+    document.getElementById("promptPowerUp").innerHTML = "SLOW-MO POWER UP!";
+}
+function deactivateSlowMoPowerUp(){
+    setInterval(setMole, 1000);
+    setInterval(setToxic, 1000);
+
+    document.getElementById("promptPowerUp").style.color = "red";
+    document.getElementById("promptPowerUp").innerHTML = "SLOW-MO POWER DEACTIVATED";
+}
+
   
 //2xPower up
 function activateX2ScorePowerUp(){
   if (this == nonToxicTile) {
-    score += 20; //doubles the score per whack
+    score += 2000; //doubles the score per whack
     document.getElementById("score").innerText = score.toString();
     document.getElementById("promptPowerUp").style.color = "blue";
     document.getElementById("promptPowerUp").innerHTML = "x2 SCORE POWER UP!";
   }
 }
+
+        // Power-ups
+		//ACTIVATE
+  function activateBigWhackPowerUp() {
+      bigWhack = true;
+      setTimeout(deactivateBigWhackPowerUp, 5000);
+
+document.getElementById("promptPowerUp").style.color = "blue";
+      document.getElementById("promptPowerUp").innerHTML = "BIG-WHACK POWER UP!";			
+
+setInterval(setMole, 1070); 
+      setInterval(setToxic, 2025);
+  }
+
+  function activateBonusHolePowerUp() {
+      bonusHole = true;
+      setTimeout(deactivateBonusHolePowerUp, 5000);
+
+document.getElementById("promptPowerUp").style.color = "blue";
+      document.getElementById("promptPowerUp").innerHTML = "BONUS HOLE POWER UP!";
+
+setInterval(setMole, 1070); 
+      setInterval(setToxic, 2030);
+  }
+
+  function activateX2ScorePowerUp() {
+      x2Score = true;
+      setTimeout(deactivateX2ScorePowerUp, 5000);
+
+      document.getElementById("promptPowerUp").style.color = "blue";
+      document.getElementById("promptPowerUp").innerHTML = "x2 SCORE POWER UP!";
+
+      setInterval(setMole, 1075); 
+      setInterval(setToxic, 2110);
+  }
+
+//DEACTIVATE
+  function deactivateBigWhackPowerUp() {
+      bigWhack = false;
+
+document.getElementById("promptPowerUp").style.color = "red";
+      document.getElementById("promptPowerUp").innerHTML = "BIG WHACK Power-up DEACTIVATED.";
+  }
+
+  function deactivateBonusHolePowerUp() {
+      bonusHole = false;
+
+document.getElementById("promptPowerUp").style.color = "red";
+      document.getElementById("promptPowerUp").innerHTML = "BONUS HOLE Power-up DEACTIVATED.";
+  }
+
+  function deactivateX2ScorePowerUp() {
+      x2Score = false;
+
+document.getElementById("promptPowerUp").style.color = "red";
+      document.getElementById("promptPowerUp").innerHTML = "x2 SCOREPower-up DEACTIVATED.";
+  }
