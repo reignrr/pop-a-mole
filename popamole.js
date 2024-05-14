@@ -9,6 +9,7 @@ let bonusHole = false;
 let timeWarp = false;
 let x2Score = false;
 
+
 window.onload = function() {
     setGame();
 }
